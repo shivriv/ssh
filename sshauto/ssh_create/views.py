@@ -87,12 +87,7 @@ def ssh_create(request):
         return HttpResponse(json.dumps(status))
 
     try:
-        response =dict[server_type](username,ip)
-	if response['status']=='error':
-		status={}
-                status['error']= 'ERROR in User creation'
-                status['response'] = 'try post method'
-                return HttpResponse(json.dumps(status))
+        dict[server_type](username,ip)
 
     except Exception as e:
 
