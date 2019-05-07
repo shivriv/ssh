@@ -49,7 +49,7 @@ def app_server(username,ip):
     print(ip)
     try:
         cmd1 = 'adduser' + ' ' + USERNAME
-        cmd2 = 'scp /home/' + '' + USERNAME + '/.ssh/id_rsa.pub' + ' ' + 'ec2@' + '' + ip + '' + '/home/' + '' + USERNAME + '' + '/.ssh/auth.key'
+        cmd2 = 'scp /home/' + '' + USERNAME + '/.ssh/id_rsa.pub' + ' ' + 'ec2@' + '' + ip + '' + ':/home/' + '' + USERNAME + '' + '/.ssh/auth.key'
         print(cmd1)
         print(cmd2)
         ssh = paramiko.SSHClient()
