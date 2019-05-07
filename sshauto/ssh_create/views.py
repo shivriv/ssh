@@ -21,7 +21,7 @@ def bastion(username,ip):
     print(USERNAME)
     try:
         cmd = script_loc + ' ' + USERNAME
-        res=subprocess.check_output(cmd, shell=True)
+        res=subprocess.call(cmd, shell=True)
         if res == 0:
                 print("cmd run")
         else:
