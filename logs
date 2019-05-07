@@ -1,0 +1,43 @@
+we are adding user
+tfs378
+creating user if not in server
+user created
+cmd run
+[07/May/2019 06:17:47] "POST /ssh_create HTTP/1.1" 200 71
+{"username":"tfs378",
+"server_type":"bastion",
+"ip":"10.11.16.47"
+}
+10.11.16.47
+tfs378
+we are adding user
+tfs378
+creating user if not in server
+uid=1001(tfs378) gid=1001(tfs378) groups=1001(tfs378)
+User already present
+cmd run
+[07/May/2019 06:18:00] "POST /ssh_create HTTP/1.1" 200 71
+
+{"username":"tfs378",
+"server_type":"bastion",
+"ip":"10.11.16.47"
+}
+10.11.16.47
+tfs378
+we are deleting user
+perl: warning: Setting locale failed.
+perl: warning: Please check that your locale settings:
+	LANGUAGE = (unset),
+	LC_ALL = (unset),
+	LC_CTYPE = "UTF-8",
+	LANG = "en_US.UTF-8"
+    are supported and installed on your system.
+perl: warning: Falling back to a fallback locale ("en_US.UTF-8").
+Looking for files to backup/remove ...
+Removing files ...
+Removing user `tfs378' ...
+Warning: group `tfs378' has no more members.
+Done.
+User deleted
+cmd run
+[07/May/2019 06:22:21] "POST /ssh_revoke HTTP/1.1" 200 71
