@@ -25,24 +25,18 @@ def bastion(username,ip):
     try:
         cmd = script_loc + ' ' + USERNAME
         res=subprocess.call(cmd, shell=True)
-        status['respone']= res
-        status['status']= 'error'
         if res == 0:
                 print("cmd run")
         else:
                print("error in cmd")
-               return HttpResponse(json.dumps(status))
+               raise Exception('This is the exception you expect to handle')
     except Exception as e:
+          status={}
+          status['error']= 'ERROR in User revoke'
+          status['response'] = 'try post method'
+          print(json.dumps(status))
+          raise Exception('This is the exception you expect to handle')
 
-        status={}
-        status['error']= 'ERROR in User del'
-        status['response'] = 'try post method'
-        return HttpResponse(json.dumps(status))
-
-    status = {}
-    status['response'] = 'bastion'
-    status['value'] = username
-    print(json.dumps(status))
 
 def app_server(username,ip):
     USERNAME=username
@@ -60,19 +54,16 @@ def app_server(username,ip):
             print(i)
             if i == 0:
                 print("error in cmd")
+                raise Exception('This is the exception you expect to handle')
             else:
-                print("done cmd2")
+                print("done cmd")
     except Exception as e:
 
         status={}
         status['error']= 'ERROR in User revoke'
         status['response'] = 'try post method'
-        return HttpResponse(json.dumps(status))
-
-    status = {}
-    status['response'] = 'app_server'
-    status['value'] = username
-    print(json.dumps(status))
+        print(json.dumps(status))
+        raise Exception('This is the exception you expect to handle')
 
 dict={'bastion':bastion,'app_server':app_server}
 

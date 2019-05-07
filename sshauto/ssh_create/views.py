@@ -20,68 +20,49 @@ def bastion(username,ip):
     print(host)
     print(USERNAME)
     try:
-        status={}
         cmd = script_loc + ' ' + USERNAME
-        res=subprocess.call(cmd, shell=True)
-        status['respone']= res
-        status['status']= 'error'
+        res=subprocess.check_output(cmd, shell=True)
         if res == 0:
                 print("cmd run")
         else:
                print("error in cmd")
-               return HttpResponse(json.dumps(status))
+               raise Exception('This is the exception you expect to handle')
     except Exception as e:
 
         status={}
         status['error']= 'ERROR in User creation'
         status['response'] = 'try post method'
-        return HttpResponse(json.dumps(status))
-
-    status = {}
-    status['response'] = 'bastion'
-    status['value'] = username
-    print(json.dumps(status))
+        print(json.dumps(status))
+        raise Exception('This is the exception you expect to handle')
 
 def app_server(username,ip):
     USERNAME = username
     host = ip
     print(USERNAME)
     print(ip)
-    try:
-        cmd1 = 'adduser' + ' ' + USERNAME
-        cmd2 = 'scp /home/' + '' + USERNAME + '/.ssh/id_rsa.pub' + ' ' + 'ec2@' + '' + ip + '' + ':/home/' + '' + USERNAME + '' + '/.ssh/auth.key'
-        print(cmd1)
-        print(cmd2)
-        ssh = paramiko.SSHClient()
-        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        ssh.connect(host, username=user, key_filename=key)
-        stdin, stdout, stderr = ssh.exec_command(cmd1)
-        for i in stdout:
-            print(i)
-            if i == 0:
-                print("error in cmd")
-            else:
-                print("done cmd1")
-        stdin, stdout, stderr = ssh.exec_command(cmd2)
-        for i in stdout:
-            print(i)
-            if i == 0:
-                print("error in cmd")
-            else:
-                print("done cmd2")
-
-
-    except Exception as e:
-
-        status={}
-        status['error']= 'ERROR in User creation'
-        status['response'] = 'try post method'
-        return HttpResponse(json.dumps(status))
-
-    status = {}
-    status['response'] = 'app_server'
-    status['value'] = username
-    print(json.dumps(status))
+    cmd1 = 'adduser' + ' ' + USERNAME
+    cmd2 = 'scp /home/' + '' + USERNAME + '/.ssh/id_rsa.pub' + ' ' + 'ec2@' + '' + ip + '' + ':/home/' + '' + USERNAME + '' + '/.ssh/auth.key'
+    print(cmd1)
+    print(cmd2)
+    ssh = paramiko.SSHClient()
+    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    ssh.connect(host, username=user, key_filename=key)
+    stdin, stdout, stderr = ssh.exec_command(cmd1)
+    for i in stdout:
+         print(i)
+         if i == 0:
+              print("error in cmd")
+              raise Exception('This is the exception you expect to handle')
+         else:
+              print("done cmd1")
+    stdin, stdout, stderr = ssh.exec_command(cmd2)
+    for i in stdout:
+         print(i)
+         if i == 0:
+            print("error in cmd")
+            raise Exception('This is the exception you expect to handle')
+         else:
+             print("done cmd2")
 
 dict={'bastion':bastion,'app_server':app_server}
 
@@ -106,7 +87,12 @@ def ssh_create(request):
         return HttpResponse(json.dumps(status))
 
     try:
-        dict[server_type](username,ip)
+        response =dict[server_type](username,ip)
+	if response['status']=='error':
+		status={}
+                status['error']= 'ERROR in User creation'
+                status['response'] = 'try post method'
+                return HttpResponse(json.dumps(status))
 
     except Exception as e:
 
